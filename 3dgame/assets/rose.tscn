@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbn6b7e4fam7n"]
+
+[ext_resource type="PackedScene" uid="uid://bi480by2e2kee" path="res://imports/Rose.glb" id="1_w6m0p"]
+[ext_resource type="Script" path="res://scripts/rose.gd" id="2_8efnj"]
+
+[node name="Rose" instance=ExtResource("1_w6m0p")]
+script = ExtResource("2_8efnj")

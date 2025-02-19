@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://47n0llnt2f7m"]
+
+[ext_resource type="PackedScene" uid="uid://ctqj0v5rqrjtn" path="res://imports/Daisy.glb" id="1_d7roa"]
+[ext_resource type="Script" path="res://scripts/daisy.gd" id="2_2uiye"]
+
+[node name="Daisy" instance=ExtResource("1_d7roa")]
+script = ExtResource("2_2uiye")

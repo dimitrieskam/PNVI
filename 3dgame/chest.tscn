@@ -1,0 +1,122 @@
+[gd_scene load_steps=9 format=3 uid="uid://bbfheimjnen4e"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3q3ao"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_mrl2d"]
+size = Vector3(1.2, 0.7, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_moe2h"]
+albedo_color = Color(0.419608, 0.141176, 0.0235294, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_4ygkj"]
+size = Vector3(1.2, 0.2, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l77oi"]
+albedo_color = Color(0.419608, 0.141176, 0.0235294, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_x5yby"]
+size = Vector3(0.05, 0.05, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_64giq"]
+albedo_color = Color(1, 0.843137, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_us0rs"]
+albedo_color = Color(1, 0.843137, 0, 1)
+roughness = 0.7
+
+[node name="Chest" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_3q3ao")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.99997, 0.00778409, 0, -0.00778409, 0.99997, 0, 0, 0)
+mesh = SubResource("BoxMesh_mrl2d")
+surface_material_override/0 = SubResource("StandardMaterial3D_moe2h")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.5, -0.866025, 0, 0.866025, -0.5, 0, 0.55, -0.155804)
+mesh = SubResource("BoxMesh_4ygkj")
+surface_material_override/0 = SubResource("StandardMaterial3D_l77oi")
+
+[node name="Gold" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.376057, 0.533987, 0.291648)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_64giq")
+
+[node name="Gold6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.269196, 0.533987, 0.291648)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_64giq")
+
+[node name="Gold7" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.164788, 0.533987, 0.291648)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_64giq")
+
+[node name="Gold8" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0847523, 0.533987, 0.387801)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_64giq")
+
+[node name="Gold13" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537854, 0.533987, 0.256273)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_64giq")
+
+[node name="Gold14" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.460476, 0.533987, 0.256273)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_64giq")
+
+[node name="Gold9" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0497663, 0.533987, 0.230479)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_64giq")
+
+[node name="Gold16" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0193262, 0.533987, 0.297453)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_64giq")
+
+[node name="Gold3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0482919, 0, -0.998833, 0, 1, 0, 0.998833, 0, 0.0482919, -0.286622, 0.533987, 0.504313)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_us0rs")
+
+[node name="Gold2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0482919, 0, -0.998833, 0, 1, 0, 0.998833, 0, 0.0482919, -0.180091, 0.533987, 0.125393)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_us0rs")
+
+[node name="Gold10" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0482919, 0, -0.998833, 0, 1, 0, 0.998833, 0, 0.0482919, 0.164732, 0.533987, 0.406208)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_us0rs")
+
+[node name="Gold11" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0482919, 0, -0.998833, 0, 1, 0, 0.998833, 0, 0.0482919, 0.256451, 0.533987, 0.280641)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_us0rs")
+
+[node name="Gold12" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0482919, 0, -0.998833, 0, 1, 0, 0.998833, 0, 0.0482919, 0.256451, 0.533987, 0.189987)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_us0rs")
+
+[node name="Gold4" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0482919, 0, -0.998833, 0, 1, 0, 0.998833, 0, 0.0482919, 0.100766, 0.533987, 0.504313)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_us0rs")
+
+[node name="Gold15" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0482919, 0, -0.998833, 0, 1, 0, 0.998833, 0, 0.0482919, 0.426998, 0.533987, 0.504313)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_us0rs")
+
+[node name="Gold5" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0482919, 0, -0.998833, 0, 1, 0, 0.998833, 0, 0.0482919, 0.258495, 0.533987, 0.118637)
+mesh = SubResource("BoxMesh_x5yby")
+surface_material_override/0 = SubResource("StandardMaterial3D_us0rs")

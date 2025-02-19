@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3 uid="uid://yxio54artaqq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ole33"]
+size = Vector3(2, 1, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0kjxx"]
+albedo_color = Color(0.647059, 0.164706, 0.164706, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_h6yts"]
+material = SubResource("StandardMaterial3D_0kjxx")
+size = Vector3(2, 0.1, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aud88"]
+albedo_color = Color(0.419608, 0.141176, 0.0235294, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3hv4s"]
+albedo_color = Color(0.420851, 0.142105, 0.0247685, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_65xgy"]
+material = SubResource("StandardMaterial3D_3hv4s")
+size = Vector3(2, 0.5, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eg5ma"]
+albedo_color = Color(0.419608, 0.141176, 0.0235294, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_uwmt4"]
+material = SubResource("StandardMaterial3D_eg5ma")
+size = Vector3(0.1, 0.5, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_28an1"]
+albedo_color = Color(0.419608, 0.141176, 0.0235294, 1)
+roughness = 0.7
+
+[node name="Bench" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_ole33")
+
+[node name="BenchMesh" type="Node3D" parent="."]
+
+[node name="Seat" type="MeshInstance3D" parent="BenchMesh"]
+transform = Transform3D(0.999951, 0, -0.00989586, 0, 1, 0, 0.00989586, 0, 0.999951, 0, 0, 0)
+mesh = SubResource("BoxMesh_h6yts")
+surface_material_override/0 = SubResource("StandardMaterial3D_aud88")
+
+[node name="Backrest" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00425528, 0.3, -0.25)
+mesh = SubResource("BoxMesh_65xgy")
+
+[node name="Leg1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, -0.25, -0.25)
+mesh = SubResource("BoxMesh_uwmt4")
+
+[node name="Leg2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, -0.25, -0.25)
+mesh = SubResource("BoxMesh_uwmt4")
+
+[node name="Leg3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, -0.25, 0.25)
+mesh = SubResource("BoxMesh_uwmt4")
+surface_material_override/0 = SubResource("StandardMaterial3D_28an1")
+
+[node name="Leg4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, -0.25, 0.25)
+mesh = SubResource("BoxMesh_uwmt4")

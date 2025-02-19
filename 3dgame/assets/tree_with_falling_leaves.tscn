@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bi46343wdpn6t"]
+
+[ext_resource type="PackedScene" uid="uid://bj0g0ly4ro1jk" path="res://imports/Tree with Falling Leaves.glb" id="1_cc3d2"]
+[ext_resource type="Script" path="res://scripts/tree_with_falling_leaves.gd" id="2_u30sr"]
+
+[node name="Tree with Falling Leaves" instance=ExtResource("1_cc3d2")]
+script = ExtResource("2_u30sr")

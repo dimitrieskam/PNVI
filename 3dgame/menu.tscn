@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://yf5abk077jt0"]
+
+[ext_resource type="FontFile" uid="uid://cafte4yqs6a7k" path="res://fonts/BroadaxeRevolution.ttf" id="1_e3ywf"]
+[ext_resource type="FontFile" uid="uid://bxc2h118kebud" path="res://fonts/Echotopia-Regular.otf" id="2_dd20v"]
+[ext_resource type="Script" path="res://scripts/button_title_play.gd" id="3_a3hdw"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 184.0
+offset_bottom = -140.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 0
+offset_top = -185.0
+offset_right = 1280.0
+offset_bottom = 535.0
+color = Color(0.647059, 0.831373, 0.886275, 1)
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(1280, 0)
+layout_mode = 0
+offset_left = 3.0
+offset_top = -174.0
+offset_right = 1283.0
+offset_bottom = 192.0
+theme_override_colors/font_color = Color(0, 0.447059, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.32549, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("1_e3ywf")
+theme_override_font_sizes/font_size = 200
+text = "3D Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="button-title-play" type="Button" parent="."]
+layout_mode = 0
+offset_left = 472.0
+offset_top = 202.0
+offset_right = 826.0
+offset_bottom = 360.0
+theme_override_colors/font_hover_color = Color(0, 1, 0.666667, 1)
+theme_override_colors/font_color = Color(0, 0.584314, 0.219608, 1)
+theme_override_fonts/font = ExtResource("2_dd20v")
+theme_override_font_sizes/font_size = 80
+text = "PLAY!"
+flat = true
+script = ExtResource("3_a3hdw")
+
+[connection signal="pressed" from="button-title-play" to="button-title-play" method="_on_buttontitleplay_pressed"]
