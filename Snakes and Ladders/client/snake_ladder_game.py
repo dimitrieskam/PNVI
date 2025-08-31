@@ -311,19 +311,17 @@ class SnakeLadderGame:
             self.root.after(150, lambda: self.animate_token_move(player, start_pos, end_pos, step + 1))
         else:
             final_pos = end_pos
-            # sound_type = None # winsound commented out
 
             if final_pos in ladders:
                 final_pos = ladders[final_pos]
-                # sound_type = 'ladder'
-                self.status_label.config(text=f"Player {player + 1} climbed to {final_pos}!")
+                self.status_label.config(text=f"Player {player + 1} climbed to {final_pos}! 🚀")
             elif final_pos in snakes:
                 final_pos = snakes[final_pos]
-                # sound_type = 'snake'
-                self.status_label.config(text=f"Player {player + 1} bitten! Falls to {final_pos}!")
+                self.status_label.config(text=f"Player {player + 1} bitten! 🐍 Falls to {final_pos}!")
             else:
                 self.status_label.config(text=f"Player {player + 1} moved to {final_pos}.")
 
+            # Update position and redraw token
             self.positions[player] = final_pos
             self.move_token(player)
 
