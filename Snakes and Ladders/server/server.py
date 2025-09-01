@@ -10,10 +10,11 @@ clients = {}  # session_id -> list of WebSocket connections
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[""],
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=[""],
-    allow_headers=["*"])
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 create_db()
 
@@ -57,6 +58,61 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
                     await client.send_text(data)
     except WebSocketDisconnect:
         clients[session_id].remove(websocket)
+
+@app.post("/update_stats")
+async def update_stats(username: str, result: str, duration: int = None):
+    db = SessionLocal()
+    user = db.query(User).filter(User.username == username).first()
+    if not user:
+        db.close()
+        return {"status": "error", "message": "User not found"}
+
+    if result == "win":
+        user.wins += 1
+        if duration and duration < user.fastest_win_seconds:
+            user.fastest_win_seconds = duration
+    elif result == "loss":
+        user.losses += 1
+
+    db.commit()
+    db.close()
+    return {"status": "success"}
+
+@app.post("/update_profile")
+async def update_profile(username: str, avatar: str = "🙂", new_name: str = None):
+    db = SessionLocal()
+    user = db.query(User).filter(User.username == username).first()
+    if not user:
+        db.close()
+        return {"status": "error", "message": "User not found"}
+
+    if new_name:
+        if db.query(User).filter(User.username==new_name).first():
+            db.close()
+            return {"status": "error", "message": "Username already taken"}
+        user.username  = new_name
+
+    if avatar:
+        user.avatar = avatar
+
+    db.commit()
+    db.close()
+    return {"status": "success"}
+
+@app.get("/stats")
+async def get_stats(username: str):
+    db = SessionLocal()
+    user = db.query(User).filter(User.username == username).first()
+    db.close()
+    if not user:
+        return {"status": "error", "message": "User not found"}
+    return {
+        "username": user.username,
+        "avatar": user.avatar,
+        "wins": user.wins,
+        "losses": user.losses,
+        "fastest_win_seconds": user.fastest_win_seconds
+    }
 
 if __name__ == "__main__":
     uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)

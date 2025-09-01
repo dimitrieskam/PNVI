@@ -52,6 +52,8 @@ class GameClient:
             password = password_entry.get()
             r = requests.post(f"{SERVER_URL}/login", params={"username": username, "password": password})
             if r.status_code == 200 and r.json().get("status") == "success":
+                self.username = username  # зачува име
+                self.avatar = r.json().get("avatar", "🙂")  # зачува аватар, default 🙂
                 messagebox.showinfo("Success", "Login successful!")
                 self.show_main_menu()
             else:
@@ -62,6 +64,8 @@ class GameClient:
 
     def show_main_menu(self):
         self.clear_window()
+        tk.Label(self.root, text=f"{self.avatar} {self.username}", font=("Arial", 14)).pack(pady=5)
+
         tk.Label(self.root, text="Snake & Ladder - Main Menu", font=("Arial", 18)).pack(pady=20)
         tk.Label(self.root, text="Invite players and start the game!", font=("Arial", 12)).pack(pady=5)
 
@@ -69,8 +73,8 @@ class GameClient:
             pady=10)
         tk.Button(self.root, text="🔗 Join via Invite Link", font=("Arial", 14), command=self.join_game_session).pack(
             pady=10)
+        tk.Button(self.root, text="👤 Edit Profile", command=self.show_profile_window).pack(pady=10)
         tk.Button(self.root, text="Logout", command=self.show_login_window).pack(pady=10)
-
     def create_game_session(self):
         try:
             r = requests.post(f"{SERVER_URL}/create_session")
@@ -102,29 +106,108 @@ class GameClient:
                 messagebox.showerror("Error", "Failed to create game session.")
         except Exception as e:
             messagebox.showerror("Error", f"Server error: {e}")
+
     def join_game_session(self):
-        session_id = simpledialog.askstring("Join Game", "Paste Session ID from Invite Link:")
-        if session_id:
+        invite_link = simpledialog.askstring("Join Game", "Paste Invite Link:")
+        if invite_link:
+            session_id = invite_link.split("/")[-1]
             self.start_game(session_id)
 
     def start_game(self, session_id):
         self.session_id = session_id
         self.root.withdraw()
-        game_window = tk.Toplevel()
 
+        # Create the game window
+        game_window = tk.Toplevel(self.root)
+        game_window.title("Snake & Ladder")
+
+        # WebSocket URL
         ws_url = f"ws://localhost:8000/ws/{session_id}"
 
-        self.ws = websocket.WebSocketApp(ws_url,
-                                         on_message=self.on_ws_message,
-                                         on_close=lambda ws: print("Disconnected from session."),
-                                         on_open=lambda ws: print("Connected to session."))
+        # Create game instance
+        self.game_instance = SnakeLadderGame(game_window)
 
+        # Attach ws reference to game instance
+        self.ws = websocket.WebSocketApp(
+            ws_url,
+            on_message=self.on_ws_message,
+            on_close=lambda ws: print("Disconnected from session."),
+            on_open=lambda ws: print("Connected to session.")
+        )
+        self.game_instance.ws = self.ws
+
+        # Покажи играчот (avatar + username) на прозорецот на играта
+        player_label = tk.Label(game_window, text=f"{self.avatar} {self.username}", font=("Arial", 14))
+        player_label.pack(pady=5)
+
+        # Run WebSocket in background
         threading.Thread(target=self.ws.run_forever, daemon=True).start()
+    def show_profile_window(self):
+        profile_window = tk.Toplevel(self.root)
+        profile_window.title("Player Profile")
+        profile_window.geometry("300x400")
 
-        SnakeLadderGame(game_window, websocket_connection=self.ws)
+        tk.Label(profile_window, text="Choose Avatar (emoji):", font=("Arial", 12)).pack(pady=5)
 
+        # фиксен сет на emojis
+        avatars = ["🙂", "😎", "🤖", "🐍", "🐱", "🐯", "🐸", "🐧"]
+        selected_avatar = tk.StringVar(value=avatars[0])  # default
+
+        # правиме копчиња за избор
+        avatar_frame = tk.Frame(profile_window)
+        avatar_frame.pack(pady=5)
+        for emoji in avatars:
+            b = tk.Radiobutton(
+                avatar_frame,
+                text=emoji,
+                variable=selected_avatar,
+                value=emoji,
+                indicatoron=False,
+                font=("Arial", 20),
+                width=3,
+                relief="raised",
+                selectcolor="lightblue"
+            )
+            b.pack(side="left", padx=2)
+
+        tk.Label(profile_window, text="Custom Name:", font=("Arial", 12)).pack(pady=5)
+        name_entry = tk.Entry(profile_window)
+        name_entry.insert(0, self.username if hasattr(self, "username") else "")  # тековно корисничко име
+        name_entry.pack(pady=5)
+
+        def save_profile():
+            avatar = selected_avatar.get()
+            name = name_entry.get()
+
+            r = requests.post(f"{SERVER_URL}/update_profile",
+                              params={"username": self.username, "avatar": avatar, "new_name": name})
+            if r.status_code == 200 and r.json().get("status") == "success":
+                # Ажурирај локално
+                self.avatar = avatar
+                self.username = name
+                messagebox.showinfo("Saved", f"Profile updated!\nName: {name}\nAvatar: {avatar}")
+            else:
+                messagebox.showerror("Error", r.json().get("message", "Failed to update profile"))
+
+            profile_window.destroy()
+            # Рендерирај повторно главното мени со новите податоци
+            self.show_main_menu()
+
+        tk.Button(profile_window, text="Save", command=save_profile).pack(pady=10)
+
+        # пример статистика (од сервер)
+        r = requests.get(f"{SERVER_URL}/stats", params={"username": self.username})
+        if r.status_code == 200:
+            stats = r.json()
+            tk.Label(profile_window, text="Your Stats:", font=("Arial", 12, "bold")).pack(pady=10)
+            tk.Label(profile_window, text=f"Wins: {stats['wins']}").pack()
+            tk.Label(profile_window, text=f"Losses: {stats['losses']}").pack()
+            if stats["fastest_win_seconds"] < 9999:
+                tk.Label(profile_window, text=f"Fastest Win: {stats['fastest_win_seconds']}s").pack()
     def on_ws_message(self, ws, message):
-        print(f"Received from other player: {message}")
+
+        if hasattr(self, "game_instance"):
+            self.game_instance.move_player(int(message))
 
     def clear_window(self):
         for widget in self.root.winfo_children():

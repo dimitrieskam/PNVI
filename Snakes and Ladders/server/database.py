@@ -10,6 +10,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     password = Column(String)
+    avatar = Column(String, default="🙂")
     wins = Column(Integer, default=0)
     losses = Column(Integer, default=0)
     fastest_win_seconds = Column(Integer, default=9999)
